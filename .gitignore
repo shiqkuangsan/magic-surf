@@ -1,0 +1,14 @@
+.DS_Store
+*.log
+*.tmp
+*.swp
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.mobileconfig
+subscriptions/
+profiles/
+secrets/
+
