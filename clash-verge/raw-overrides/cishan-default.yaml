@@ -1,0 +1,520 @@
+# 慈善订阅覆写配置 - 完全替换方案
+# 直接使用 proxy-groups 和 rules 完全替换原配置
+
+# ============ 完全替换代理组 ============
+proxy-groups:
+  # 主选择组
+  - name: 🚀 节点选择
+    type: select
+    proxies:
+      - 🇭🇰 香港节点
+      - 🇨🇳 台湾节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇺🇲 美国节点
+      - 🇰🇷 韩国节点
+      - 🇬🇧 英国节点
+      - 🇩🇪 德国节点
+      - 🇦🇺 澳洲节点
+      - 🇷🇺 俄罗斯节点
+      - 🇨🇦 加拿大节点
+      - 🇧🇷 巴西节点
+      - 🇮🇳 印度节点
+      - 🇿🇦 南非节点
+      - 🚀 手动切换
+      - DIRECT
+
+  - name: 🚀 手动切换
+    type: select
+    include-all: true
+
+
+  # 地区节点组
+  - name: 🇭🇰 香港节点
+    type: select
+    include-all: true
+    filter: "香港|HK|Hong Kong"
+
+  - name: 🇨🇳 台湾节点
+    type: select
+    include-all: true
+    filter: "台湾|TW|Taiwan"
+
+  - name: 🇯🇵 日本节点
+    type: select
+    include-all: true
+    filter: "日本|JP|Japan"
+
+  - name: 🇺🇲 美国节点
+    type: select
+    include-all: true
+    filter: "美国|US|United States"
+
+  - name: 🇸🇬 狮城节点
+    type: select
+    include-all: true
+    filter: "新加坡|狮城|SG|Singapore"
+
+  - name: 🇰🇷 韩国节点
+    type: select
+    include-all: true
+    filter: "韩国|KR|Korea"
+
+  - name: 🇩🇪 德国节点
+    type: select
+    include-all: true
+    filter: "德国|DE|Germany"
+
+  - name: 🇨🇦 加拿大节点
+    type: select
+    include-all: true
+    filter: "加拿大|CA|Canada"
+
+  - name: 🇬🇧 英国节点
+    type: select
+    include-all: true
+    filter: "英国|UK|United Kingdom|Britain"
+
+  - name: 🇦🇺 澳洲节点
+    type: select
+    include-all: true
+    filter: "澳大利亚|澳洲|AU|Australia"
+
+  - name: 🇷🇺 俄罗斯节点
+    type: select
+    include-all: true
+    filter: "俄罗斯|RU|Russia"
+
+  - name: 🇧🇷 巴西节点
+    type: select
+    include-all: true
+    filter: "巴西|BR|Brazil"
+
+  - name: 🇮🇳 印度节点
+    type: select
+    include-all: true
+    filter: "印度|IN|India"
+
+  - name: 🇿🇦 南非节点
+    type: select
+    include-all: true
+    filter: "南非|ZA|South Africa"
+
+  # 功能分组
+  - name: 💬 Ai平台
+    type: select
+    proxies:
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+      - 🇸🇬 狮城节点
+      - 🇰🇷 韩国节点
+      - 🇩🇪 德国节点
+      - 🇨🇦 加拿大节点
+      - 🇬🇧 英国节点
+      - 🚀 节点选择
+      - 🚀 手动切换
+
+  - name: 📲 电报消息
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🇸🇬 狮城节点
+      - 🇭🇰 香港节点
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+      - 🚀 手动切换
+
+  - name: 📹 油管视频
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🇭🇰 香港节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇺🇲 美国节点
+      - 🇨🇳 台湾节点
+      - 🇰🇷 韩国节点
+      - 🚀 手动切换
+
+  - name: 🎥 奈飞视频
+    type: select
+    proxies:
+      - 🇸🇬 狮城节点
+      - 🇭🇰 香港节点
+      - 🇨🇳 台湾节点
+      - 🇯🇵 日本节点
+      - 🇺🇲 美国节点
+      - 🚀 节点选择
+      - 🚀 手动切换
+
+  - name: 🎬 迪士尼
+    type: select
+    proxies:
+      - 🇭🇰 香港节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇺🇲 美国节点
+      - 🇨🇳 台湾节点
+      - 🚀 节点选择
+      - 🚀 手动切换
+
+  - name: 📺 巴哈姆特
+    type: select
+    proxies:
+      - 🇨🇳 台湾节点
+      - 🚀 节点选择
+      - 🚀 手动切换
+      - DIRECT
+
+  - name: 📺 哔哩哔哩
+    type: select
+    proxies:
+      - 🎯 全球直连
+      - 🇨🇳 台湾节点
+      - 🇭🇰 香港节点
+
+  - name: 🌍 国外媒体
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🇭🇰 香港节点
+      - 🇨🇳 台湾节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇺🇲 美国节点
+      - 🚀 手动切换
+
+  - name: 🌏 国内媒体
+    type: select
+    proxies:
+      - DIRECT
+      - 🇭🇰 香港节点
+      - 🇨🇳 台湾节点
+
+  - name: 📢 谷歌服务
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🇭🇰 香港节点
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+      - 🇸🇬 狮城节点
+      - 🚀 手动切换
+
+  - name: 🐱 GitHub
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🇺🇲 美国节点
+      - 🇭🇰 香港节点
+      - 🇯🇵 日本节点
+      - 🇸🇬 狮城节点
+      - 🎯 全球直连
+      - 🚀 手动切换
+
+  - name: Ⓜ️ 微软服务
+    type: select
+    proxies:
+      - DIRECT
+      - 🚀 节点选择
+      - 🇭🇰 香港节点
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+      - 🚀 手动切换
+
+  - name: 🍎 苹果服务
+    type: select
+    proxies:
+      - DIRECT
+      - 🚀 节点选择
+      - 🇭🇰 香港节点
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+      - 🚀 手动切换
+
+  - name: 🎮 游戏平台
+    type: select
+    proxies:
+      - DIRECT
+      - 🚀 节点选择
+      - 🇭🇰 香港节点
+      - 🇯🇵 日本节点
+      - 🇺🇲 美国节点
+      - 🇰🇷 韩国节点
+      - 🚀 手动切换
+
+  - name: 🎯 全球直连
+    type: select
+    proxies:
+      - DIRECT
+      - 🚀 节点选择
+
+  - name: 🛑 广告拦截
+    type: select
+    proxies:
+      - REJECT
+      - DIRECT
+
+  - name: 🐟 漏网之鱼
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - DIRECT
+      - 🇭🇰 香港节点
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+      - 🚀 手动切换
+
+# ============ 完全替换规则 ============
+rules:
+  # -------- claude --------
+  - AND,((DOMAIN-KEYWORD,anthropic),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - AND,((DOMAIN-KEYWORD,claude),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - AND,((PROCESS-NAME-REGEX,(?i)anthropic),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - AND,((PROCESS-NAME-REGEX,(?i)claude),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - DOMAIN-KEYWORD,anthropic,💬 Ai平台
+  - DOMAIN-KEYWORD,claude,💬 Ai平台
+  - PROCESS-NAME-REGEX,(?i)anthropic,💬 Ai平台
+  - PROCESS-NAME-REGEX,(?i)claude,💬 Ai平台
+
+  # -------- 本地/局域网 --------
+  - DOMAIN-SUFFIX,local,🎯 全球直连
+  - DOMAIN-SUFFIX,localhost,🎯 全球直连
+  - DOMAIN-KEYWORD,merlinblog,🎯 全球直连
+  - IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve
+  - IP-CIDR,172.16.0.0/12,🎯 全球直连,no-resolve
+  - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
+  - IP-CIDR,127.0.0.0/8,🎯 全球直连,no-resolve
+  - IP-CIDR,100.64.0.0/10,🎯 全球直连,no-resolve
+  - IP-CIDR6,::1/128,🎯 全球直连,no-resolve
+  - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
+  - IP-CIDR6,fe80::/10,🎯 全球直连,no-resolve
+
+
+  # -------- 公司内网 --------
+  - DOMAIN-SUFFIX,wisedu.com,🎯 全球直连
+  - DOMAIN-SUFFIX,wisedu.cn,🎯 全球直连
+  - DOMAIN-KEYWORD,wisedu,🎯 全球直连
+  - IP-CIDR,6.6.6.6/32,🎯 全球直连,no-resolve
+
+
+  # -------- 广告拦截 --------
+  - GEOSITE,category-ads-all,🛑 广告拦截
+
+  # -------- AI 平台 --------
+  # OpenAI / ChatGPT / Sora
+  - DOMAIN-SUFFIX,openai.com,💬 Ai平台
+  - DOMAIN-SUFFIX,chatgpt.com,💬 Ai平台
+  - DOMAIN-SUFFIX,ai.com,💬 Ai平台
+  - DOMAIN-SUFFIX,oaistatic.com,💬 Ai平台
+  - DOMAIN-SUFFIX,oaiusercontent.com,💬 Ai平台
+  - DOMAIN-SUFFIX,openaiapi-site.azureedge.net,💬 Ai平台
+  - DOMAIN-SUFFIX,sora.com,💬 Ai平台
+  - DOMAIN-KEYWORD,openai,💬 Ai平台
+  # Anthropic / Claude
+  # Google AI (Gemini / Bard / NotebookLM / AI Studio)
+  - DOMAIN-SUFFIX,gemini.google.com,💬 Ai平台
+  - DOMAIN-SUFFIX,bard.google.com,💬 Ai平台
+  - DOMAIN-SUFFIX,makersuite.google.com,💬 Ai平台
+  - DOMAIN-SUFFIX,ai.google.dev,💬 Ai平台
+  - DOMAIN-SUFFIX,aistudio.google.com,💬 Ai平台
+  - DOMAIN-SUFFIX,notebooklm.google,💬 Ai平台
+  - DOMAIN-SUFFIX,notebooklm.google.com,💬 Ai平台
+  - DOMAIN,generativelanguage.googleapis.com,💬 Ai平台
+  # Microsoft Copilot / Bing AI
+  - DOMAIN-SUFFIX,copilot.microsoft.com,💬 Ai平台
+  - DOMAIN-SUFFIX,copilot.cloud.microsoft,💬 Ai平台
+  - DOMAIN,sydney.bing.com,💬 Ai平台
+  - DOMAIN-SUFFIX,ai.azure.com,💬 Ai平台
+  # GitHub Copilot
+  - DOMAIN,api.githubcopilot.com,💬 Ai平台
+  - DOMAIN,copilot-proxy.githubusercontent.com,💬 Ai平台
+  # Meta AI
+  - DOMAIN-SUFFIX,meta.ai,💬 Ai平台
+  # xAI / Grok
+  - DOMAIN-SUFFIX,x.ai,💬 Ai平台
+  - DOMAIN-SUFFIX,grok.com,💬 Ai平台
+  # Perplexity
+  - DOMAIN-SUFFIX,perplexity.ai,💬 Ai平台
+  # Mistral
+  - DOMAIN-SUFFIX,mistral.ai,💬 Ai平台
+  # DeepSeek (国内服务,直连)
+  - DOMAIN-SUFFIX,deepseek.com,🎯 全球直连
+  # Groq
+  - DOMAIN-SUFFIX,groq.com,💬 Ai平台
+  - DOMAIN,api.groq.com,💬 Ai平台
+  - DOMAIN,console.groq.com,💬 Ai平台
+  # Together AI
+  - DOMAIN-SUFFIX,together.ai,💬 Ai平台
+  - DOMAIN,api.together.xyz,💬 Ai平台
+  # Fireworks AI
+  - DOMAIN-SUFFIX,fireworks.ai,💬 Ai平台
+  # Cohere
+  - DOMAIN-SUFFIX,cohere.com,💬 Ai平台
+  # Poe
+  - DOMAIN-SUFFIX,poe.com,💬 Ai平台
+  # HuggingFace
+  - DOMAIN-SUFFIX,huggingface.co,💬 Ai平台
+  - DOMAIN-SUFFIX,hf.co,💬 Ai平台
+  # Replicate
+  - DOMAIN-SUFFIX,replicate.com,💬 Ai平台
+  # 图像/视频/音乐生成
+  - DOMAIN-SUFFIX,midjourney.com,💬 Ai平台
+  - DOMAIN-SUFFIX,stability.ai,💬 Ai平台
+  - DOMAIN-SUFFIX,runway.ml,💬 Ai平台
+  - DOMAIN-SUFFIX,runwayml.com,💬 Ai平台
+  - DOMAIN-SUFFIX,suno.ai,💬 Ai平台
+  - DOMAIN-SUFFIX,suno.com,💬 Ai平台
+  - DOMAIN-SUFFIX,udio.com,💬 Ai平台
+  - DOMAIN-SUFFIX,elevenlabs.io,💬 Ai平台
+  # AI 编程工具
+  - DOMAIN-SUFFIX,cursor.sh,💬 Ai平台
+  - DOMAIN-SUFFIX,cursor.com,💬 Ai平台
+  - DOMAIN-SUFFIX,codeium.com,💬 Ai平台
+  - DOMAIN-SUFFIX,windsurf.com,💬 Ai平台
+  - DOMAIN-SUFFIX,tabnine.com,💬 Ai平台
+  - DOMAIN-SUFFIX,sourcegraph.com,💬 Ai平台
+  - DOMAIN-SUFFIX,phind.com,💬 Ai平台
+  - DOMAIN-SUFFIX,bolt.new,💬 Ai平台
+  - DOMAIN-SUFFIX,v0.dev,💬 Ai平台
+  - DOMAIN-SUFFIX,replit.com,💬 Ai平台
+  # JetBrains AI
+  - DOMAIN-SUFFIX,jetbrains.ai,💬 Ai平台
+  - DOMAIN-SUFFIX,grazie.ai,💬 Ai平台
+  - DOMAIN-SUFFIX,grazie.aws.intellij.net,💬 Ai平台
+  # 其他 AI 平台
+  - DOMAIN-SUFFIX,you.com,💬 Ai平台
+  - DOMAIN-SUFFIX,dify.ai,💬 Ai平台
+  - DOMAIN-SUFFIX,coze.com,💬 Ai平台
+  - DOMAIN-SUFFIX,novelai.net,💬 Ai平台
+  - DOMAIN-SUFFIX,civitai.com,💬 Ai平台
+  - DOMAIN-SUFFIX,liner.ai,💬 Ai平台
+
+  # -------- Telegram --------
+  - GEOSITE,telegram,📲 电报消息
+  - GEOIP,telegram,📲 电报消息
+
+  # -------- YouTube --------
+  - GEOSITE,youtube,📹 油管视频
+
+  # -------- Netflix --------
+  - GEOSITE,netflix,🎥 奈飞视频
+
+  # -------- Disney+ --------
+  - DOMAIN-SUFFIX,disneyplus.com,🎬 迪士尼
+  - DOMAIN-SUFFIX,disney-plus.net,🎬 迪士尼
+  - DOMAIN-SUFFIX,dssott.com,🎬 迪士尼
+  - DOMAIN-SUFFIX,bamgrid.com,🎬 迪士尼
+  - DOMAIN-KEYWORD,disneyplus,🎬 迪士尼
+
+  # -------- 巴哈姆特 --------
+  - DOMAIN-SUFFIX,bahamut.com.tw,📺 巴哈姆特
+  - DOMAIN-SUFFIX,gamer.com.tw,📺 巴哈姆特
+
+  # -------- 哔哩哔哩 --------
+  - GEOSITE,bilibili,📺 哔哩哔哩
+
+  # -------- 国外媒体 --------
+  - DOMAIN-SUFFIX,spotify.com,🌍 国外媒体
+  - DOMAIN-SUFFIX,spotifycdn.com,🌍 国外媒体
+  - DOMAIN-SUFFIX,scdn.co,🌍 国外媒体
+  - DOMAIN-SUFFIX,twitch.tv,🌍 国外媒体
+  - DOMAIN-SUFFIX,ttvnw.net,🌍 国外媒体
+  - DOMAIN-SUFFIX,hulu.com,🌍 国外媒体
+  - DOMAIN-SUFFIX,hbomax.com,🌍 国外媒体
+  - DOMAIN-SUFFIX,max.com,🌍 国外媒体
+  - DOMAIN-SUFFIX,primevideo.com,🌍 国外媒体
+  - DOMAIN-SUFFIX,tiktok.com,🌍 国外媒体
+  - DOMAIN-SUFFIX,tiktokv.com,🌍 国外媒体
+  - DOMAIN-SUFFIX,tiktokcdn.com,🌍 国外媒体
+  - GEOSITE,category-media,🌍 国外媒体
+
+  # -------- 国内媒体 --------
+  - GEOSITE,category-media-cn,🌏 国内媒体
+
+  # -------- 谷歌服务 --------
+  - GEOSITE,google,📢 谷歌服务
+  - GEOSITE,google-cn,📢 谷歌服务
+
+  # -------- GitHub --------
+  - GEOSITE,github,🐱 GitHub
+
+  # -------- 微软服务 --------
+  - GEOSITE,microsoft,Ⓜ️ 微软服务
+  - GEOSITE,onedrive,Ⓜ️ 微软服务
+
+  # -------- 苹果服务 --------
+  - GEOSITE,apple,🍎 苹果服务
+  - GEOSITE,apple-cn,🍎 苹果服务
+
+  # -------- 游戏平台 --------
+  - GEOSITE,steam,🎮 游戏平台
+  - DOMAIN-SUFFIX,epicgames.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,unrealengine.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,epicgames.dev,🎮 游戏平台
+  - DOMAIN-SUFFIX,playstation.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,playstation.net,🎮 游戏平台
+  - DOMAIN-SUFFIX,xbox.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,xboxlive.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,nintendo.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,nintendo.net,🎮 游戏平台
+  - DOMAIN-SUFFIX,battle.net,🎮 游戏平台
+  - DOMAIN-SUFFIX,blizzard.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,riotgames.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,ubisoft.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,ea.com,🎮 游戏平台
+  - DOMAIN-SUFFIX,origin.com,🎮 游戏平台
+
+  # -------- 常用代理站点 --------
+  - GEOSITE,twitter,🚀 节点选择
+  - GEOSITE,facebook,🚀 节点选择
+  - GEOSITE,instagram,🚀 节点选择
+  - DOMAIN-SUFFIX,wikipedia.org,🚀 节点选择
+  - DOMAIN-SUFFIX,wikimedia.org,🚀 节点选择
+  - DOMAIN-SUFFIX,wikidata.org,🚀 节点选择
+  - DOMAIN-SUFFIX,reddit.com,🚀 节点选择
+  - DOMAIN-SUFFIX,redd.it,🚀 节点选择
+  - DOMAIN-SUFFIX,redditstatic.com,🚀 节点选择
+  - DOMAIN-SUFFIX,discord.com,🚀 节点选择
+  - DOMAIN-SUFFIX,discordapp.com,🚀 节点选择
+  - DOMAIN-SUFFIX,discord.gg,🚀 节点选择
+  - DOMAIN-SUFFIX,v2ex.com,🚀 节点选择
+  - DOMAIN-SUFFIX,notion.so,🚀 节点选择
+  - DOMAIN-SUFFIX,notion.site,🚀 节点选择
+  - DOMAIN-SUFFIX,figma.com,🚀 节点选择
+  - DOMAIN-SUFFIX,dropbox.com,🚀 节点选择
+  - DOMAIN-SUFFIX,dropboxusercontent.com,🚀 节点选择
+  - DOMAIN-SUFFIX,medium.com,🚀 节点选择
+  - DOMAIN-SUFFIX,archive.org,🚀 节点选择
+  - DOMAIN-SUFFIX,pinterest.com,🚀 节点选择
+  - DOMAIN-SUFFIX,quora.com,🚀 节点选择
+  - DOMAIN-SUFFIX,line.me,🚀 节点选择
+  - DOMAIN-SUFFIX,naver.com,🚀 节点选择
+  - DOMAIN-SUFFIX,slack.com,🚀 节点选择
+  - DOMAIN-SUFFIX,zoom.us,🚀 节点选择
+
+  # -------- 下载/P2P 直连 --------
+  - DOMAIN-KEYWORD,aria2,🎯 全球直连
+  - DOMAIN-KEYWORD,Thunder,🎯 全球直连
+  - DOMAIN-KEYWORD,xunlei,🎯 全球直连
+  - PROCESS-NAME,aria2c,🎯 全球直连
+  - PROCESS-NAME,fdm,🎯 全球直连
+  - PROCESS-NAME,Folx,🎯 全球直连
+  - PROCESS-NAME,NetTransport,🎯 全球直连
+  - PROCESS-NAME,Thunder,🎯 全球直连
+  - PROCESS-NAME,Transmission,🎯 全球直连
+  - PROCESS-NAME,uTorrent,🎯 全球直连
+  - PROCESS-NAME,qbittorrent,🎯 全球直连
+  - PROCESS-NAME,WebTorrent,🎯 全球直连
+  - PROCESS-NAME,baidunetdisk,🎯 全球直连
+
+  # -------- GFW 域名兜底 (非中国域名走代理) --------
+  - GEOSITE,geolocation-!cn,🚀 节点选择
+
+  # -------- 直连规则 --------
+  - GEOSITE,private,🎯 全球直连
+  - GEOSITE,cn,🎯 全球直连
+  - GEOIP,cn,🎯 全球直连
+
+  # -------- 兜底规则 --------
+  - MATCH,🐟 漏网之鱼

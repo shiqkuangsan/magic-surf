@@ -1,0 +1,46 @@
+# 全局 Merge · 所有订阅都叠加
+# 原则：只放 ACL4SSR 订阅规则覆盖不到的 / 跨订阅通用的个人规则
+# 语法：list 字段必须用 prepend-*/append-* 前缀才是追加；直接 rules: 会替换订阅全部规则
+
+profile:
+  store-selected: true
+
+tun:
+  # 新字段（IPv4 + IPv6 统一），旧 inet4-route-exclude-address 已废弃
+  route-exclude-address:
+    - 172.16.0.8/32
+    - 6.6.6.6/32
+
+prepend-rules:
+  # ===== A. Claude UDP:443 REJECT（强制降级 TCP，ACL4SSR 无此规则）=====
+  - AND,((DOMAIN-KEYWORD,anthropic),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - AND,((DOMAIN-KEYWORD,claude),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - AND,((PROCESS-NAME-REGEX,(?i)anthropic),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - AND,((PROCESS-NAME-REGEX,(?i)claude),(NETWORK,UDP),(DST-PORT,443)),REJECT
+
+  # ===== B. Claude 进程名路由（ACL4SSR 只管域名不管进程）=====
+  - PROCESS-NAME-REGEX,(?i)anthropic,💬 Ai平台
+  - PROCESS-NAME-REGEX,(?i)claude,💬 Ai平台
+
+  # ===== C. 公司内网（Mac 专属，ACL4SSR 不可能有）=====
+  - DOMAIN-SUFFIX,wisedu.com,DIRECT
+  - DOMAIN-SUFFIX,wisedu.cn,DIRECT
+  - DOMAIN-KEYWORD,wisedu,DIRECT
+  - IP-CIDR,172.16.0.8/32,DIRECT,no-resolve
+  - IP-CIDR,6.6.6.6/32,DIRECT,no-resolve
+
+  # ===== D. Cloudflare Tunnel（cloudflared 走代理会崩）=====
+  - DOMAIN-SUFFIX,argotunnel.com,DIRECT
+  - DOMAIN-SUFFIX,cftunnel.com,DIRECT
+  - DOMAIN-SUFFIX,cloudflare-gateway.com,DIRECT
+  - IP-CIDR,198.41.192.0/24,DIRECT,no-resolve
+  - IP-CIDR,198.41.200.0/24,DIRECT,no-resolve
+  - PROCESS-NAME,cloudflared,DIRECT
+
+  # ===== E. Steam CDN 精准 FQDN（补 ACL4SSR SteamCN.list 可能漏的）=====
+  - DOMAIN-SUFFIX,steamcontent.com,DIRECT
+  - DOMAIN-SUFFIX,cs.steampowered.com,DIRECT
+  - DOMAIN,cdn.steampowered.com,DIRECT
+  - DOMAIN,cdn.akamai.steamstatic.com,DIRECT
+  - DOMAIN-SUFFIX,steam.clovercdn.com,DIRECT
+

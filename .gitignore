@@ -11,4 +11,11 @@
 subscriptions/
 profiles/
 secrets/
-
+clash-runtime/
+clash-verge-dumps/
+clash-verge.yaml
+clash-verge.yaml*.bak
+profiles.yaml
+logs/
+*.db
+*.sqlite
