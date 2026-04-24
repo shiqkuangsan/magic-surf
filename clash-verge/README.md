@@ -44,4 +44,4 @@ Rules:
 - `templates/raw-override.base.yaml`: base template for future raw subscription overrides
 - `acl-convertible/`: docs for ACL-convertible subscriptions
 - `docs/conventions.md`: long-term rules for naming and layering
-
+- `AI-GUIDE.zh-CN.md`: Chinese operational guide intended for chat-based AI assistants

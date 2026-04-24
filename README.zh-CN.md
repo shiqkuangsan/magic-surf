@@ -13,7 +13,7 @@
 
 ## 当前内容
 
-- `ACL4SSR_Full_NoAuto_Shadowrocket.conf`：基于 ACL4SSR `Full_NoAuto` 语义整理的 Shadowrocket 配置，节点来源仍然使用主页订阅。
+- `ACL4SSR_Full_NoAuto_Shadowrocket.conf`：iOS 端 Shadowrocket 的分组分流方案，基于 ACL4SSR `Full_NoAuto` 语义整理，节点来源仍然使用主页订阅。
 - `clash-verge/`：受 Git 管理的 Clash Verge Rev 覆写配置和约定说明，不包含原始订阅链接或运行时产物。
 
 ## Clash Verge 目录结构

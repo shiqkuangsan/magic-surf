@@ -44,3 +44,4 @@
 - `templates/raw-override.base.yaml`：后续新增原始订阅覆写时的基础模板
 - `acl-convertible/`：可走 ACL 转换订阅的约定说明
 - `docs/conventions.md`：长期维护用的命名和分层规则
+- `AI-GUIDE.zh-CN.md`：给聊天型 AI 使用的 Clash Verge 配置操作规约

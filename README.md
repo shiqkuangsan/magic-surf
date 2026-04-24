@@ -13,7 +13,7 @@ Personal repository for proxy-related assets and configuration.
 
 ## Current Files
 
-- `ACL4SSR_Full_NoAuto_Shadowrocket.conf`: Shadowrocket config based on ACL4SSR `Full_NoAuto` semantics, using homepage subscriptions as the node source.
+- `ACL4SSR_Full_NoAuto_Shadowrocket.conf`: iOS Shadowrocket grouping and routing scheme based on ACL4SSR `Full_NoAuto` semantics, using homepage subscriptions as the node source.
 - `clash-verge/`: source-controlled Clash Verge Rev override files and conventions, without raw subscriptions or runtime dumps.
 
 ## Clash Verge Layout
