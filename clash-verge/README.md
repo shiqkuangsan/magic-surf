@@ -1,5 +1,7 @@
 # Clash Verge Rev
 
+[简体中文](README.zh-CN.md)
+
 This directory is the source of truth for hand-maintained Clash Verge Rev configuration.
 
 It only stores safe files:

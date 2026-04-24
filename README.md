@@ -1,5 +1,7 @@
 # magic-surf
 
+[简体中文](README.zh-CN.md)
+
 Personal repository for proxy-related assets and configuration.
 
 ## Scope
