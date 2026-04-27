@@ -61,8 +61,8 @@ iStoreOS 软路由端的 OpenClash 走完全同款架构（subconverter + ACL4SS
 | subconverter Docker 网络 | port mapping `127.0.0.1:25500` | `network_mode: host` |
 | 端侧规则注入落点 | `shared/Script.js`（JS）+ `shared/Merge.yaml`（字段补丁） | OpenClash 覆写 → 自定义规则（YAML） |
 
-## 历史
+## 设计要点
 
-- **2026-04-27 之前**：Mac 端默认走「原始订阅 + raw-overrides」，理由是公共 subconverter（wcc.best 等）不识别 anytls 等新协议
-- **2026-04-27 上午**：Mac 本地部署 `asdlokj1qpi23/subconverter:latest`（社区活跃 fork，原生支持 anytls / hysteria2 / vless reality / tuic / ss2022），原 anytls 阻塞消除——主备方案颠倒，主方案改为 subconverter + ACL4SSR
-- **2026-04-27 中午**：实测发现 Verge Rev v2.4.7 起 `Merge.yaml` 中的 `prepend-rules` 顶级字段已废弃（mihomo 实测 0 命中）。规则注入方案从 `Merge.yaml` 迁至 `shared/Script.js`，`Merge.yaml` 仅保留 `profile` / `tun` 等 mihomo 原生字段补丁。参考 [verge-rev #2455](https://github.com/clash-verge-rev/clash-verge-rev/issues/2455)
+- **subconverter 镜像必须是 `asdlokj1qpi23/subconverter:latest`**——社区活跃 fork，原生支持 anytls / hysteria2 / vless reality / tuic / ss2022 等现代协议。`tindy2013/subconverter:v0.9.0` 与公共转换器（wcc.best / api.dler.io 等）会静默丢弃这些节点
+- **规则注入用 `shared/Script.js`，不要写在 `shared/Merge.yaml` 的 `prepend-rules`**——后者自 Verge Rev v1.6.2 起已废弃，v2.4.7 静默丢弃；参考 [verge-rev #2455](https://github.com/clash-verge-rev/clash-verge-rev/issues/2455)
+- **DNS 配置**详见 [`docs/dns.md`](docs/dns.md)——含系统代理 vs TUN 模式链路差异、企业 VPN（EasyConnect 等）+ TUN 共存方案、Verge GUI DNS 设置 vs `Merge.yaml dns` 块二选一关系

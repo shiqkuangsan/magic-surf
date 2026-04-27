@@ -1,72 +1,99 @@
 # magic-surf
 
-这是一个用于存放代理相关资产和配置的个人仓库。
+一套**三端同源**的代理栈配置——Mac Clash Verge Rev / iOS Shadowrocket / iStoreOS OpenClash 共用同一节点池、同一 subconverter、同一 ACL4SSR 模板、同一分组命名、同一规则取向。
 
-## 范围
+> 本仓库是**配置 + 文档**，不是软件。fork 后按 `clash-verge/` 或 `openclash/` 下的 README 落地。
 
-- Shadowrocket 配置文件
-- Clash Verge Rev 覆写配置（Mac 端）
-- OpenClash 配置方案（iStoreOS 软路由端）
-- 规则与分组预设
-- 代理工具与配置相关说明
+## 这套配置解决了什么
 
-## 当前内容
+**1. 现代协议在公共 subconverter 上被静默丢弃**
 
-- `ACL4SSR_Full_NoAuto_Shadowrocket.conf`：iOS 端 Shadowrocket 的分组分流方案，基于 ACL4SSR `Full_NoAuto` 语义整理，节点来源仍然使用主页订阅。
-- `clash-verge/`：Mac 上 Clash Verge Rev 的方案——本地 subconverter + ACL4SSR 模板 + 全局 `Merge.yaml`（字段补丁）+ 全局 `Script.js`（规则注入）。
-- `openclash/`：iStoreOS 软路由 OpenClash 的方案——本地 subconverter + ACL4SSR 模板 + OpenClash 覆写自定义规则。
+机场订阅常带 `anytls` / `hysteria2` / `vless reality` / `tuic` / `ss2022` 等 2024 后协议。OpenClash 内置的 `tindy2013/subconverter:v0.9.0` 与公共转换器（wcc.best / api.dler.io 等）不识别这些协议，转换时整段节点会被丢弃（实测 22/35 节点被吞）。
 
-## 仓库为何在 2026-04-27 重构
+→ **本仓库统一用 `asdlokj1qpi23/subconverter:latest`（社区活跃 fork，原生支持上述协议）**，部署在 Mac Docker 与软路由 Docker，两端镜像一致。
 
-这套仓库一天之内经历两次结构性改造，理解动机有助于按正确顺序阅读文档：
+**2. 端侧规则注入没有标准化出路**
 
-1. **subconverter fork 升级**（上午）—— OpenClash 内置 subconverter 与公共 subconverter（wcc.best / api.dler.io 等）都在源头静默丢弃 `anytls` 等现代协议节点。Mac 端 + 软路由端**双双换装** `asdlokj1qpi23/subconverter:latest`（社区活跃 fork），节点零丢失，两端架构归一。**结果**：Mac 端主备方案颠倒，原「能 ACL 转换 vs 不能 ACL 转换」分类失效。
+`Merge.yaml` 的 `prepend-rules` 自 Verge Rev v1.6.2 起已被官方废弃，v2.4.7 静默丢弃——但很多教程仍在推这个写法，结果是**配置看起来对、mihomo 不识别、整段无效**。
 
-2. **Verge Rev `prepend-rules` 废弃**（中午）—— 实测发现 Verge Rev v2.4.7 起 `Merge.yaml` 中的 `prepend-rules` / `append-rules` 顶级字段已被官方静默丢弃（v1.6.2 起废弃）。规则注入方案从 `Merge.yaml` 迁至新建的全局 `Script.js`（JavaScript 钩子）。**结果**：`clash-verge/shared/` 现有两份文件——`Merge.yaml` 仅放 mihomo 原生字段补丁，`Script.js` 承担所有规则前置注入；本仓库旧版 prepend-rules 写法全部清除。
+→ **本仓库给出 `shared/Script.js` 全局脚本方案**（Verge JS 钩子，在订阅规则前拼接自定义规则），覆盖：
+- 进程级路由（PROCESS-NAME，如 Claude / Anthropic 客户端）
+- 公司内网直连（DOMAIN-SUFFIX + IP-CIDR）
+- Cloudflare Tunnel 直连（避免 argotunnel / cftunnel 走代理失败）
+- Steam CDN 漏网域名直连
+- Claude UDP:443 REJECT（强制 Anthropic 客户端走 TCP，规避 QUIC 路径连通性问题）
 
-如果陛下要 fork 本仓库，从下方「三端关系」章节开始读当前架构，不要参考 `git log` 或早期快照。
+**3. 三端配置容易漂移**
 
-## 三端关系（2026-04-27 起统一架构）
+Mac / iOS / 软路由分头维护时，分组命名常漂成 `💬 Ai平台` vs `💬 AI平台` vs `claude in`，规则注入零散在多处，一改三处。
 
-| 端 | 工具 | subconverter 实例 | 主方案 | 备方案 |
-|---|------|-----------------|------|------|
-| iOS | Shadowrocket | — | 仓库根目录 conf | — |
-| Mac | Clash Verge Rev | Mac Docker `127.0.0.1:25500` | subconverter URL + ACL4SSR 模板 + `clash-verge/shared/Merge.yaml`（mihomo 字段补丁）+ `clash-verge/shared/Script.js`（规则注入） | 原始订阅 + `clash-verge/raw-overrides/` |
-| 软路由 | OpenClash (iStoreOS) | 软路由 Docker host:25500 | subconverter URL + ACL4SSR 模板 + `openclash/overrides/` | （无） |
+→ **本仓库锁定统一命名**（28 组 ACL4SSR 标准 + `💬 Ai平台` 等 emoji 前缀）+ **统一拼音 profile 命名**（`agg-acl / guaren-acl / cishan-acl / maoxiong-acl / peiqian-acl`，跨端对齐）+ **AI 流量统一指向 `💬 Ai平台`**。
 
-三端：
+**4. ACL4SSR 模板没有 DNS baseline，企业 VPN + TUN 共存复杂**
 
-- **节点池一致**：都是机场原始订阅
-- **subconverter 镜像一致**：`asdlokj1qpi23/subconverter:latest`（社区活跃 fork，原生支持 anytls / hysteria2 / vless reality / tuic / ss2022）
-- **分组命名一致**：`💬 Ai平台` / `🚀 节点选择` / `🎯 全球直连` 等统一组名
-- **关键规则取向一致**：AI 流量 → `💬 Ai平台`、Cloudflare Tunnel → `DIRECT`
+ACL4SSR_Online_Full_NoAuto 提供 28 组分组 + 10401 条规则，但不带 `dns:` 块。fork 后若不补 DNS 配置，TUN 模式下默认行为靠 mihomo 内置兜底，企业 VPN（EasyConnect / AnyConnect）连入后内网域名解析失败。
 
-## 历史沿革
+→ **本仓库给出 `shared/Merge.yaml` 的 DNS baseline**（fake-ip + 国内 DoH nameserver + 境外 DoH fallback + proxy-server-nameserver 防回环）+ **`docs/dns.md` 完整链路文档**（系统代理 vs TUN 模式 / 企业 VPN + TUN 共存配方 / 入口域名鸡生蛋死锁修复）。
 
-- 2026-04-27 之前：Mac Verge 默认走「原始订阅 + raw-overrides」，理由是公共 subconverter（wcc.best 等）不识别 anytls 等新协议
-- 2026-04-27 上午：iStoreOS 上 OpenClash 内置 subconverter 升级为 `asdlokj1qpi23` fork（原 `tindy2013` v0.9.0 不支持 anytls，丢 22/35 节点）。Mac 端同日跟进部署本地 subconverter（同款 fork），原「不能 ACL 转换」分类失效——主备方案颠倒，主方案统一为 subconverter + ACL4SSR
-- 2026-04-27 中午：实测发现 Verge Rev v2.4.7 起 `Merge.yaml` 中的 `prepend-rules` 顶级字段已废弃（mihomo 实测 0 命中）。Mac 端的规则注入方案从 `Merge.yaml` 迁至新建的全局 `clash-verge/shared/Script.js`，`Merge.yaml` 仅保留 `profile` / `tun` 等 mihomo 原生字段补丁。参考 [verge-rev #2455](https://github.com/clash-verge-rev/clash-verge-rev/issues/2455)
+## 三端能力一览
 
-## Clash Verge 目录结构（Mac 端）
+| 端 | 工具 | 主要能力 | 入口文件 |
+|---|------|---------|---------|
+| iOS | Shadowrocket | ACL4SSR Full_NoAuto 完整分组分流，远程 RULE-SET 同步 | `ACL4SSR_Full_NoAuto_Shadowrocket.conf` |
+| Mac | Clash Verge Rev | 本地 subconverter + ACL4SSR + 端侧规则脚本注入 + DNS baseline + 备方案降级 | `clash-verge/README.md` |
+| 软路由 | OpenClash (iStoreOS) | 网关层透明代理 + 同款 subconverter + ACL4SSR + 端侧规则覆写 | `openclash/README.md` |
 
-- `clash-verge/subconverter/`：**主方案** Mac 本地 subconverter 容器配置 + 部署说明
-- `clash-verge/subscription-template.md`：**主方案** Verge 订阅地址 URL 拼装规约 + 9 份 profile 命名规约
-- `clash-verge/shared/Merge.yaml`：全局共享 mihomo 原生字段补丁（主备方案共用）
-- `clash-verge/shared/Script.js`：全局共享规则注入脚本（替代已废弃的 `prepend-rules`）
-- `clash-verge/raw-overrides/`：**备方案** 订阅级专属 merge 覆写（仅在主方案失败时回退）
-- `clash-verge/templates/`：备方案专属覆写模板
-- `clash-verge/docs/`：命名和分层约定
-- `clash-verge/AI-GUIDE.zh-CN.md`：给 AI 的 Verge 配置操作规约
+三端共享：
 
-## OpenClash 目录结构（iStoreOS 软路由端）
+- **同一节点池**（机场原始订阅）
+- **同一 subconverter 镜像**（`asdlokj1qpi23/subconverter:latest`）
+- **同一 ACL4SSR 模板**（`Online_Full_NoAuto.ini`）
+- **同一组名 / profile 命名**
+- **同一 AI 路由取向**：所有 AI 流量 → `💬 Ai平台`
+- **同一直连兜底**：Cloudflare Tunnel / 公司内网 / Steam CDN → DIRECT
 
-- `openclash/subconverter/`：iStoreOS 上 subconverter 容器部署说明 + compose 模板（与 Mac 同源）
-- `openclash/overrides/`：OpenClash 覆写设置「自定义规则」prepend 模板（路由层可生效部分，是 Mac `Script.js` 的子集）
-- `openclash/subscription-template.md`：OpenClash 订阅地址 URL 拼装规约 + 5 份配置命名规约（拼音风，与 Mac Verge profile 命名对齐）
-- `openclash/AI-GUIDE.zh-CN.md`：给 AI 的 OpenClash 配置操作规约
+## 快速开始
+
+### 我要在 Mac 上配 Clash Verge
+
+→ [`clash-verge/README.md`](clash-verge/README.md)（主备双方案 / 本地 subconverter 部署 / Script.js 注入 / DNS baseline）
+
+### 我要在 iStoreOS 软路由上配 OpenClash
+
+→ [`openclash/README.md`](openclash/README.md)（subconverter 容器升级 / 订阅地址写法 / 覆写自定义规则）
+
+### 我要在 iPhone 上配 Shadowrocket
+
+→ 直接导入 `ACL4SSR_Full_NoAuto_Shadowrocket.conf`，节点来源仍用机场提供的原始订阅。
+
+## 目录结构
+
+```
+magic-surf/
+├── ACL4SSR_Full_NoAuto_Shadowrocket.conf    # iOS 端配置
+├── clash-verge/                             # Mac 端
+│   ├── subconverter/                        #   本地 subconverter 容器
+│   ├── shared/Merge.yaml                    #   全局字段补丁（profile / tun / dns）
+│   ├── shared/Script.js                     #   全局规则注入脚本（替代 prepend-rules）
+│   ├── raw-overrides/                       #   备方案：订阅级 merge 覆写
+│   ├── templates/                           #   备方案模板
+│   ├── subscription-template.md             #   订阅 URL 拼装规约
+│   ├── docs/conventions.md                  #   命名分层约定
+│   ├── docs/dns.md                          #   DNS 配置说明（系统代理 vs TUN / VPN 共存）
+│   └── AI-GUIDE.zh-CN.md                    #   给聊天 AI 的操作规约
+└── openclash/                               # 软路由端
+    ├── subconverter/                        #   subconverter 容器（与 Mac 同源）
+    ├── overrides/                           #   覆写自定义规则
+    ├── subscription-template.md             #   订阅 URL 拼装规约
+    └── AI-GUIDE.zh-CN.md                    #   给聊天 AI 的操作规约
+```
 
 ## 安全约束
 
-- 不要提交原始订阅链接、账户凭据或私有证书。
-- 供应商相关的敏感内容应放在被忽略的路径下，例如 `subscriptions/`、`profiles/` 或 `secrets/`。
-- 不要提交 Clash 运行时文件，例如 `profiles.yaml`、`clash-verge.yaml`、`logs/`，以及远程订阅快照。
+- **不要提交真实订阅 URL / token / UUID / 密码 / 节点快照** —— 本仓库所有文件中订阅链接以占位符形式出现（`<airport-host>/<token>`）
+- **不要提交运行时文件** —— `profiles.yaml`、`clash-verge.yaml`、`logs/`、`/etc/openclash/` 等
+- **不要提交个人专属内网信息** —— 公司域名、内网 IP、内网 DNS server 等需要替换为占位符（`<corp-domain>` / `10.x.x.x`）
+
+## License
+
+MIT

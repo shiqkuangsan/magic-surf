@@ -23,19 +23,12 @@ OpenClash「覆写设置 → 自定义规则」叠加个人 prepend 规则
 mihomo Meta 内核（alpha 分支，全协议支持）
 ```
 
-## 为什么是这个架构
+## 设计要点
 
-历史包袱：
-
-- **OpenClash 内置 subconverter 老旧**：默认镜像 `tindy2013/subconverter:latest` (v0.9.0) 不支持 anytls 等 2024 年后新协议，订阅转换时 22/35 节点会被静默丢弃
-- **公共转换器（wcc.best 等）同样老旧**：URL 中嵌入这类后端会在源头丢节点
-- **机场内容协商**：UA = `clash.meta` 时机场可能直接返回完整 Clash YAML（含新协议），故订阅链路应保持端到端 Meta 兼容
-
-解法：
-
-- 替换软路由本地 subconverter 容器镜像为 `asdlokj1qpi23/subconverter:latest`（v0.9.9，社区活跃 fork，原生支持 anytls / hysteria2 / vless reality / tuic / ss2022）
-- OpenClash「在线订阅转换」**关闭**，订阅地址直接填写本地 subconverter 的 URL（subconverter 已内置 ACL4SSR 模板调用）
-- 多机场订阅可通过 `&url=URL1|URL2|...` 在 subconverter 层面聚合
+- **subconverter 镜像必须是 `asdlokj1qpi23/subconverter:latest`**（v0.9.9，原生支持 anytls / hysteria2 / vless reality / tuic / ss2022）。OpenClash 默认的 `tindy2013/subconverter:v0.9.0` 与公共转换器（wcc.best 等）会静默丢弃这些协议节点
+- **OpenClash「在线订阅转换」必须关闭**，订阅地址直接填本地 subconverter 的 URL（subconverter 已内置 ACL4SSR 模板调用）
+- **UA 设为 `clash.meta`**，让机场返回完整 Clash YAML（含新协议节点）
+- **多机场聚合**通过 `&url=URL1|URL2|...` 在 subconverter 层面合并
 
 ## 与 Clash Verge 的关系
 
