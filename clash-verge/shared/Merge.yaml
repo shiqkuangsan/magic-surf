@@ -17,7 +17,13 @@ profile:
 
 tun:
   # 新字段（IPv4 + IPv6 统一），旧 inet4-route-exclude-address 已废弃
-  # 把公司内网网关 IP 排出 TUN 劫持，避免 VPN 握手时 mihomo 抢路由
+  # route-exclude-address 用于把特定 IP 排出 TUN 劫持
+  # 下列为示例占位，fork 者按各自企业网络环境替换：
+  #   - <内网 DNS server IP>/32 —— 让 mihomo 发往内网 DNS 的 53 端口查询包绕过 TUN，
+  #     由企业 VPN 客户端（如 EasyConnect / AnyConnect）虚拟网卡路由进 VPN 隧道。
+  #     必须配合 dns.nameserver-policy 中将企业内网域名指向同一个 IP，详见 ../docs/dns.md
+  #   - <办公室 captive-portal / LDAP 网关 IP>/32 —— 在办公室 WiFi 下，认证页面所在 IP
+  #     需绕过 mihomo 才能弹出登录页
   route-exclude-address:
     - 172.16.0.8/32
     - 6.6.6.6/32
