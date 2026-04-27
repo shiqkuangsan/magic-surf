@@ -15,7 +15,7 @@ There are only three layers:
 `shared/Merge.yaml` may contain (mihomo native top-level fields, deep-merged):
 - `profile`
 - `tun`
-- `dns`
+- `dns` (see [`dns.md`](dns.md) for system-proxy vs TUN behavior, baseline policy, and dnsmasq-free operation)
 - `hosts`
 - `proxy-providers` / `rule-providers`
 - `sniffer`

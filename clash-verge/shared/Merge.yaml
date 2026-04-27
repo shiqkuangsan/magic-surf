@@ -21,3 +21,49 @@ tun:
   route-exclude-address:
     - 172.16.0.8/32
     - 6.6.6.6/32
+
+# DNS baseline：TUN 模式下生效，系统代理模式下大多无影响
+# 详细说明 / 链路差异 / fork 者调整项，见 ../docs/dns.md
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  # fake-ip-filter：返回真实 IP 的域名清单（局域网 / IM / 检测探针）
+  fake-ip-filter:
+    - '+.lan'
+    - '+.local'
+    - '+.localdomain'
+    - '+.home.arpa'
+    - '+.in-addr.arpa'
+    - '+.ip6.arpa'
+    - '*.msftncsi.com'
+    - '*.msftconnecttest.com'
+    - 'localhost.ptlogin2.qq.com'
+    - 'time.*.com'
+    - 'ntp.*.com'
+    - '+.market.xiaomi.com'
+  # default-nameserver：仅用于解析下面 nameserver / fallback 中 DoH 的域名
+  # 必须是裸 IP（不能再嵌套 DoH）
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  # nameserver：默认上游（国内域名走这里）
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  # proxy-server-nameserver：解析机场节点自身域名时用的上游
+  # 必须走非代理可达的国内 DoH，否则节点域名走 fallback → 走代理 → 回环
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  # fallback：国外域名走这里（通过 fallback-filter 触发）
+  fallback:
+    - https://1.1.1.1/dns-query
+    - https://dns.google/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32

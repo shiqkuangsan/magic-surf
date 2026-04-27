@@ -115,7 +115,7 @@ mihomo 内核
 允许放入（mihomo 原生顶级字段，走 YAML deep-merge）：
 - `profile`
 - `tun`
-- `dns`
+- `dns`（baseline 详见 [`docs/dns.md`](docs/dns.md)，区分系统代理 vs TUN 模式）
 - `hosts`
 - `proxy-providers` / `rule-providers`
 - `sniffer` / `experimental`
@@ -304,6 +304,7 @@ Verge 还存在独立的 `rules` / `groups` / `proxies` 覆写槽。
 - `raw-overrides/*.yaml` —— **备方案**专属覆写
 - `templates/raw-override.base.yaml` —— 备方案专属覆写模板
 - `docs/conventions.md` —— 命名分层约定
+- `docs/dns.md` —— DNS 配置说明（系统代理 vs TUN 模式 / `Merge.yaml` 中 `dns:` 块 / 不依赖 dnsmasq）
 - `../openclash/AI-GUIDE.zh-CN.md` —— 软路由 OpenClash 配置规约（命名 / 分流约定与本端共享）
 - `../openclash/subconverter/README.md` —— iStoreOS subconverter 部署说明（与 Mac 同源）
 - `../ACL4SSR_Full_NoAuto_Shadowrocket.conf` —— iOS 端 Shadowrocket 方案
