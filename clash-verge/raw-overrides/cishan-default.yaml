@@ -292,9 +292,9 @@ rules:
 
 
   # -------- 公司内网 --------
-  - DOMAIN-SUFFIX,wisedu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,wisedu.cn,🎯 全球直连
-  - DOMAIN-KEYWORD,wisedu,🎯 全球直连
+  - DOMAIN-SUFFIX,your-corp.com,🎯 全球直连
+  - DOMAIN-SUFFIX,your-corp.cn,🎯 全球直连
+  - DOMAIN-KEYWORD,your-corp,🎯 全球直连
   - IP-CIDR,6.6.6.6/32,🎯 全球直连,no-resolve
 
 

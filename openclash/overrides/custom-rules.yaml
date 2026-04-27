@@ -1,0 +1,52 @@
+# OpenClash 覆写设置 → 规则设置 → 自定义规则
+# 优先匹配（prepend），插在 ACL4SSR 模板规则之前
+#
+# === 与 Mac Verge 端的关系 ===
+#
+# 本文件 = Mac Verge `../../clash-verge/shared/Script.js` 中 `prependRules` 数组的
+# 路由层等价子集。两端共享同一套规则意图，但有两个差异：
+#
+# 1. 路由层 OpenClash 看不到客户端进程名 → 移除所有 PROCESS-NAME / PROCESS-NAME-REGEX
+#    规则（Mac Verge Script.js 保留这些）
+# 2. your-corp 公司内网在 Mac 端走 Script.js 直连即可，不需要再在路由层重复（除非
+#    陛下需要让其他设备经路由器代理时走内网）
+#
+# 修改后通过 OpenClash WebUI「保存并应用」生效
+
+rules:
+  # ===== A. Claude UDP:443 REJECT（强制降级 TCP，ACL4SSR 无此规则）=====
+  - AND,((DOMAIN-KEYWORD,anthropic),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - AND,((DOMAIN-KEYWORD,claude),(NETWORK,UDP),(DST-PORT,443)),REJECT
+
+  # ===== B. Claude/Anthropic 关键字 + SUFFIX → 💬 Ai平台 =====
+  # 关键字匹配（覆盖未来新域名 / claudeusercontent.com 等长尾）
+  - DOMAIN-KEYWORD,anthropic,💬 Ai平台
+  - DOMAIN-KEYWORD,claude,💬 Ai平台
+  # 精确 SUFFIX 保险（关键字若被未来 mihomo 行为变更影响，SUFFIX 仍管用）
+  - DOMAIN-SUFFIX,claude.ai,💬 Ai平台
+  - DOMAIN-SUFFIX,anthropic.com,💬 Ai平台
+  - DOMAIN-SUFFIX,claudeusercontent.com,💬 Ai平台
+  - DOMAIN-SUFFIX,claude.com,💬 Ai平台
+
+  # ===== C. Cloudflare Tunnel（cloudflared 走代理会崩）=====
+  - DOMAIN-SUFFIX,argotunnel.com,DIRECT
+  - DOMAIN-SUFFIX,cftunnel.com,DIRECT
+  - DOMAIN-SUFFIX,cloudflare-gateway.com,DIRECT
+  - IP-CIDR,198.41.192.0/24,DIRECT,no-resolve
+  - IP-CIDR,198.41.200.0/24,DIRECT,no-resolve
+  # PROCESS-NAME,cloudflared 规则在路由层不生效（路由器拿不到 Mac 客户端进程名）
+  # Mac 端通过 ../../clash-verge/shared/Script.js 注入此规则
+
+  # ===== D. Steam CDN 精准 FQDN（补 ACL4SSR SteamCN.list 可能漏的）=====
+  - DOMAIN-SUFFIX,steamcontent.com,DIRECT
+  - DOMAIN-SUFFIX,cs.steampowered.com,DIRECT
+  - DOMAIN,cdn.steampowered.com,DIRECT
+  - DOMAIN,cdn.akamai.steamstatic.com,DIRECT
+  - DOMAIN-SUFFIX,steam.clovercdn.com,DIRECT
+
+  # ===== E. 公司内网 your-corp（默认注释，仅当其他设备经路由代理需要直连内网时启用）=====
+  # - DOMAIN-SUFFIX,your-corp.com,DIRECT
+  # - DOMAIN-SUFFIX,your-corp.cn,DIRECT
+  # - DOMAIN-KEYWORD,your-corp,DIRECT
+  # - IP-CIDR,172.16.0.8/32,DIRECT,no-resolve
+  # - IP-CIDR,6.6.6.6/32,DIRECT,no-resolve
