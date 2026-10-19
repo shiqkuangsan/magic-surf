@@ -1,0 +1,9 @@
+services:
+  subconverter:
+    image: asdlokj1qpi23/subconverter:latest
+    container_name: subconverter
+    ports:
+      - "127.0.0.1:25500:25500"
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai

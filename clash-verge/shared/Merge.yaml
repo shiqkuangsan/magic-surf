@@ -1,0 +1,10 @@
+# Shared fields only. DNS is managed separately; see ../docs/dns.md.
+# Preserve device-specific exclusions when adopting these example ranges.
+profile:
+  store-selected: true
+
+tun:
+  route-exclude-address:
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16

@@ -1,0 +1,6 @@
+services:
+  subconverter:
+    image: asdlokj1qpi23/subconverter:latest
+    container_name: subconverter
+    network_mode: host
+    restart: always

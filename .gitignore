@@ -1,0 +1,24 @@
+.DS_Store
+*.log
+*.tmp
+*.swp
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.mobileconfig
+subscriptions/
+profiles/
+secrets/
+clash-runtime/
+clash-verge-dumps/
+clash-verge.yaml
+clash-verge.yaml*.bak
+profiles.yaml
+logs/
+*.db
+*.sqlite
+
+# Device-local personalized sources and generated exports
+.local/
